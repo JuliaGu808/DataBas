@@ -18,31 +18,15 @@ public class ColorF {
         this.färgId=färgId;
         this.name=name;
     }
-
-    /**
-     * @return the id
-     */
     public int getId() {
         return id;
     }
-
-    /**
-     * @return the demoId
-     */
     public int getDemoId() {
         return demoId;
     }
-
-    /**
-     * @return the färgId
-     */
     public int getFärgId() {
         return färgId;
     }
-
-    /**
-     * @return the name
-     */
     public String getName() {
         return färgId + "." + name;
     }

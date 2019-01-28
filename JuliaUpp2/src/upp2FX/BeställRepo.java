@@ -49,8 +49,6 @@ public class BeställRepo {
         catch(Exception e){
             e.printStackTrace();
         }
-//        beställningar.stream().forEach(c -> c.print());
         return beställningar;
     }
-    
 }

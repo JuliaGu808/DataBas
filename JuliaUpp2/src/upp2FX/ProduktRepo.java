@@ -45,7 +45,6 @@ public class ProduktRepo {
         catch(Exception e){
             e.printStackTrace();
         }
-//        produkter.stream().forEach(c -> c.print());
         return produkter;
     }
 }

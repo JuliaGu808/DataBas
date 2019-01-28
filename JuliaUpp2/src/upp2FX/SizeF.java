@@ -18,31 +18,15 @@ public class SizeF {
         this.storlekId=storlekId;
         this.size=size;
     }    
-
-    /**
-     * @return the id
-     */
     public int getId() {
         return id;
     }
-
-    /**
-     * @return the demoId
-     */
     public int getDemoId() {
         return demoId;
     }
-
-    /**
-     * @return the storlekId
-     */
     public int getStorlekId() {
         return storlekId;
     }
-
-    /**
-     * @return the size
-     */
     public double getSize() {
         return size;
     }

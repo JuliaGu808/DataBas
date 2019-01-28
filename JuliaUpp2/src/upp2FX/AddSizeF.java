@@ -48,19 +48,13 @@ public class AddSizeF {
             public void handle(ActionEvent event) {
                 RadioButton rb = (RadioButton) event.getSource();
                 String s = rb.getText().trim();   
-
                 tit.setText(s);
             }
         });
             b.setToggleGroup(group);
             rbtn.add(b);
-        }
-
-        
+        }       
         box.getChildren().addAll(rbtn);
-
-        return box;
-    
-        
+        return box;          
     }
 }

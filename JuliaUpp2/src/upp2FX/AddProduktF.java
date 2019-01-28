@@ -21,7 +21,6 @@ public class AddProduktF {
         this.beställningar=beställningar;
         this.num=num;
     }
-
     public List<BeställningF> addPro() {
         List<BeställningF> temp = new ArrayList<>();
         for(int i = 0; i<beställningar.size(); i++){

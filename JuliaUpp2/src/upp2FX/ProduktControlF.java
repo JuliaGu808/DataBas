@@ -51,41 +51,13 @@ public class ProduktControlF {
                 int num = Integer.parseInt(s);
                 AddColorF ac = new AddColorF();
                 colors = ac.addCol(colors, num, "choose one color");
-//                List<ColorF> colors = ac.addCol(r, num, "choose one color");
-//                grid.getChildren().remove(colorBox);
-//                
-//                colorBox = ac.addBox();
-                
-                
-
-//                List<Color> colors = r.showDemoColor(num);
-//                colorBox = addVBoxP(colors, "choose one color");
-//                grid.add(colorBox, 0, 1);
-//                primaryStage.show();
                 title.setText(num+"");
             }
         });
             b.setToggleGroup(group);
             rbtn.add(b);
         }
-//            RadioButton testB = new RadioButton("new one");
-//            testB.setOnAction(new EventHandler<ActionEvent>(){
-//            @Override
-//            public void handle(ActionEvent event) {
-//                RadioButton rbt = (RadioButton) event.getSource();
-//                String st = rbt.getText().trim();    
-//                title.setText(st);
-//            }
-//        });
-//            testB.setToggleGroup(group);
-//            rbtn.add(testB);
-        
         box.getChildren().addAll(rbtn);
-
         return box;
-    
-        
     }
-
-
 }

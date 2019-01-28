@@ -35,7 +35,5 @@ public class KundControlF {
             }
         }
         return name;
-    }
-    
-    
+    }    
 }

@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 public class AddColorF {
     private String title;
     private List<ColorF> colors = new ArrayList<>();
-    
     public List<ColorF> addCol (List<ColorF> färg, int demoId, String title){
         this.title=title;
         for(ColorF c: färg){
@@ -49,19 +48,13 @@ public class AddColorF {
             public void handle(ActionEvent event) {
                 RadioButton rb = (RadioButton) event.getSource();
                 String s = rb.getText().trim();   
-
                 tit.setText(s);
             }
         });
             b.setToggleGroup(group);
             rbtn.add(b);
         }
-
-        
         box.getChildren().addAll(rbtn);
-
-        return box;
-    
-        
+        return box;        
     }
 }

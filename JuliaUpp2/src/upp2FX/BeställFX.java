@@ -57,35 +57,26 @@ public class BeställFX extends Application {
         grid.setHgap(20);
         grid.setVgap(10);
         grid.setPadding(new Insets(0,10,0,10));
-        
         RepositoryF r = new RepositoryF();
         colors = r.showAllColor();
         sizes = r.showAllSize();
         orter = r.showAllOrt();
-        
         ProduktRepo pr = new ProduktRepo();
         List<ProduktF> produkter = pr.showAllProdukt();
         produkterBox = addVBoxP(produkter, "välja en produkt");
-        
-//        Text titO = new Text("choose ort");
-//        titO.setFont(Font.font("Aria", FontWeight.BOLD, 14));
-//        ortBox.getChildren().add(titO);
         Text titC = new Text("choose color");
         titC.setFont(Font.font("Aria", FontWeight.BOLD, 14));
         colorBox.getChildren().add(titC);
         Text titS = new Text("choose size");
         titS.setFont(Font.font("Aria", FontWeight.BOLD, 14));
         sizeBox.getChildren().add(titS);
-        
         BeställRepo br = new BeställRepo();
         beställningar = br.showAllBeställ();
         BeställControlF bc = new BeställControlF();
         validBeställ = bc.showValidBeställ(beställningar,id);
         beställerBox = addVBoxB(validBeställ, "välja en beställning");
-        
         ortBox = addBoxO("choose one place");
         ortBox.setVisible(false);
-        
         grid.add(produkterBox, 0, 0);
         grid.add(beställerBox, 3, 0);
         grid.add(ortBox, 0, 1, 2, 1);
@@ -94,7 +85,6 @@ public class BeställFX extends Application {
         grid.add(produktInfo, 3, 1, 1, 2);
         grid.add(extraInfo, 3, 3, 1,1);
         grid.add(btn, 1, 4, 2, 1);
-        
         StackPane root = new StackPane();
         border.setCenter(grid);
         root.getChildren().add(border);
@@ -102,22 +92,16 @@ public class BeställFX extends Application {
         primaryStage.setTitle(name + " beställningar!");
         primaryStage.setScene(scene);
         primaryStage.show();
-
         btn.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
                 int demoId = 0;
                 int beställId = 0;
                 Text ps =(Text) produkterBox.getChildren().get(0);
-                
                 Text bs =(Text) beställerBox.getChildren().get(0);
-//                System.out.println(bs.getText());
                 Text ortname =(Text) ortBox.getChildren().get(0);
-                System.out.println(ortname.getText());
                 Text colorname = (Text) colorBox.getChildren().get(0);
-                System.out.println(colorname.getText());
                 Text sizename = (Text) sizeBox.getChildren().get(0);
-                System.out.println(sizename.getText());
                 int ortint=2, colorint=1, sizeint=5;
                 try{
                     demoId = Integer.parseInt(ps.getText().trim());
@@ -129,12 +113,6 @@ public class BeställFX extends Application {
                 try{
                     beställId = Integer.parseInt(bs.getText().trim());
                     if(demoId != 0 ){
-//                        if(!ortname.getText().startsWith("choose")) ortint=2;
-//                        else{
-//                            String[] ortstr = ortname.getText().split(".");
-//                            ortint = Integer.parseInt(ortstr[0]);
-//                        }
-//                        System.out.println(ortname.getText());
                         if(colorname.getText().startsWith("choose")) colorint=1;
                             else{
                                 int colorii = colorname.getText().indexOf(".");
@@ -147,26 +125,10 @@ public class BeställFX extends Application {
                                 String sizestr = sizename.getText().substring(0, sizeii);
                                 sizeint = Integer.parseInt(sizestr);
                             }
-
-//                        if(colorname.getText().startsWith("choose")) colorint=1;
-//                        else{
-//                            System.out.println(colorname.getText());
-//                            String[] colorstr = colorname.getText().split(".");
-//                            System.out.println(colorstr[0]);
-//                            System.out.println(colorstr[1]);
-//                            colorint = Integer.parseInt(colorstr[0]);
-//                        }
-////                        System.out.println(colorint);
-//                        if(sizename.getText().startsWith("choose")) sizeint=5;
-//                        else{
-//                            String[] sizestr = sizename.getText().split(".");
-//                            sizeint = Integer.parseInt(sizestr[0]);
-//                        }
-//                        System.out.println(sizeint);
                         if(colorint==1 && sizeint==5) 
                             r.callAddToCart(id, beställId, demoId);
                         else
-                            r.callAddToCart2(demoId, beställId, demoId, ortint, colorint, sizeint);
+                            r.callAddToCart2(id, beställId, demoId, ortint, colorint, sizeint);
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException ex) {
@@ -174,21 +136,20 @@ public class BeställFX extends Application {
                         }
                         System.exit(0);
                     }
-//                    else{
-//                        extraInfo.setText("choose en produkt och en beställning");
-////                        primaryStage.show();
-//                    }
+                    else{
+                        extraInfo.setText("choose en produkt och en beställning");
+                    }
                 }
                 catch(Exception e){
                     if(demoId != 0){
                         if(bs.getText().startsWith("new")){
+                            beställId = 0;
                             if(ortname.getText().startsWith("choose")) ortint=2;
                             else{
                                 int ortii = ortname.getText().indexOf(".");
                                 String ortstr = ortname.getText().substring(0, ortii);
                                 ortint = Integer.parseInt(ortstr);
                                 System.out.println(ortint);
-                                
                             }
                             if(colorname.getText().startsWith("choose")) colorint=1;
                             else{
@@ -202,10 +163,13 @@ public class BeställFX extends Application {
                                 String sizestr = sizename.getText().substring(0, sizeii);
                                 sizeint = Integer.parseInt(sizestr);
                             }
-                            if(ortint==2 && colorint==1 && sizeint==5) 
+                            if(ortint==2 && colorint==1 && sizeint==5) {
                                 r.callAddToCart(id, beställId, demoId);
-                            else
-                                r.callAddToCart2(demoId, beställId, demoId, ortint, colorint, sizeint);
+                            }
+                            else{
+                                System.out.println(ortint +"."+colorint+"."+sizeint);
+                                r.callAddToCart2(id, beställId, demoId, ortint, colorint, sizeint);
+                            }
                             try {
                                 Thread.sleep(2000);
                             } catch (InterruptedException ex) {
@@ -213,10 +177,9 @@ public class BeställFX extends Application {
                             }
                             System.exit(0);
                         }
-//                        else{
-//                            extraInfo.setText("choose one beställning");
-//                            primaryStage.show();
-//                        }
+                        else{
+                            extraInfo.setText("choose one beställning");
+                        }
                     }
                     else{
                         extraInfo.setText("choose one produkt");
@@ -282,7 +245,6 @@ public class BeställFX extends Application {
         List<RadioButton> rbtn = new ArrayList<>();
         ToggleGroup group = new ToggleGroup();
         for(int i = 0; i<orter.size(); i++){
-//            String[] strO = orter.get(i).toString().split(".");
             RadioButton b = new RadioButton(orter.get(i).toString());
             b.setOnAction(new EventHandler<ActionEvent>(){
             @Override

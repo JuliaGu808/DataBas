@@ -34,7 +34,6 @@ public class RepositoryF {
             e.printStackTrace();
         }
     }
-
     public List<ColorF> showAllColor(){
         String query = "select produktfärg.id, produktfärg.demoID, färg.id as färgID, färg.namn from färg "
         + "inner join produktfärg on färg.id = produktfärg.färgID order by produktfärg.id";
@@ -90,9 +89,6 @@ public class RepositoryF {
         }
         return getOrter();
     }
-    
-    
-
     public void callAddToCart(int kundId, int beställningId, int produktId){
         ResultSet rs = null;
         String errorMsg = "";
@@ -110,7 +106,7 @@ public class RepositoryF {
                 errorMsg=rs.getString("error");
             }
             if(!errorMsg.equals("")) System.out.println(errorMsg);
-            System.out.println("Check your database from beställning");
+            System.out.println("1 Check your database from beställning");
         }
         catch(Exception e){
             e.printStackTrace();
@@ -137,54 +133,28 @@ public class RepositoryF {
                 errorMsg=rs.getString("error");
             }
             if(!errorMsg.equals("")) System.out.println(errorMsg);
-            System.out.println("Check your database from beställning");
+            System.out.println("2 Check your database from beställning");
         }
         catch(Exception e){
             e.printStackTrace();
         }        
     }
-
-    /**
-     * @return the kunder
-     */
     public List<KundF> getKunder() {
         return kunder;
     }
-
-    /**
-     * @return the beställningar
-     */
     public List<BeställningF> getBeställningar() {
         return beställningar;
     }
-
-    /**
-     * @return the produkter
-     */
     public List<ProduktF> getProdukter() {
         return produkter;
     }
-
-    /**
-     * @return the colors
-     */
     public List<ColorF> getColors() {
         return colors;
     }
-
-    /**
-     * @return the sizes
-     */
     public List<SizeF> getSizes() {
         return sizes;
     }
-
-    /**
-     * @return the orter
-     */
     public List<OrtF> getOrter() {
         return orter;
     }
-
-
 }

@@ -16,7 +16,6 @@ class BeställningF {
     private int ortId;
     private Date datum;
     private boolean skickad;
-    
     public BeställningF(int id, int kundId, int produktId, int ordId, Date datum, boolean skickad){
         this.id=id;
         this.kundId=kundId;
@@ -25,33 +24,24 @@ class BeställningF {
         this.datum=datum;
         this.skickad=skickad;
     }
-    public BeställningF(){}
-
     public int getKundId() {
         return kundId;
     }
-
     public void setKundId(int kundId) {
         this.kundId = kundId;
     }
-
     public int getOrtId() {
         return ortId;
     }
-
     public void setOrtId(int ortId) {
         this.ortId = ortId;
     }
-
-    
     public boolean isSkickad() {
         return skickad;
     }
-
     public void setSkickad(boolean skickad) {
         this.skickad = skickad;
-    }
-    
+    }   
     public void print(){
         System.out.println("beställningId: "+getId()+ "\tkundId: " + kundId + 
                 " \tproduktId: " + produktId + "\tortId: " + ortId + 
@@ -64,12 +54,7 @@ class BeställningF {
     public String toString(){
         return "Id: "+getId()+", \tdatum: "+datum+" \tskickad: "+skickad + " \n";
     }
-
-    /**
-     * @return the id
-     */
     public int getId() {
         return id;
-    }
-    
+    }   
 }

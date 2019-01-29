@@ -63,7 +63,7 @@ public class BeställFX extends Application {
         orter = r.showAllOrt();
         ProduktRepo pr = new ProduktRepo();
         List<ProduktF> produkter = pr.showAllProdukt();
-        produkterBox = addVBoxP(produkter, "välja en produkt");
+        produkterBox = addVBoxP(produkter, "choose one produkt");
         Text titC = new Text("choose color");
         titC.setFont(Font.font("Aria", FontWeight.BOLD, 14));
         colorBox.getChildren().add(titC);
@@ -74,7 +74,7 @@ public class BeställFX extends Application {
         beställningar = br.showAllBeställ();
         BeställControlF bc = new BeställControlF();
         validBeställ = bc.showValidBeställ(beställningar,id);
-        beställerBox = addVBoxB(validBeställ, "välja en beställning");
+        beställerBox = addVBoxB(validBeställ, "choose one beställning");
         ortBox = addBoxO("choose one place");
         ortBox.setVisible(false);
         grid.add(produkterBox, 0, 0);
@@ -94,7 +94,8 @@ public class BeställFX extends Application {
         primaryStage.show();
         btn.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event) {   
+                extraInfo.setVisible(true);
                 int demoId = 0;
                 int beställId = 0;
                 Text ps =(Text) produkterBox.getChildren().get(0);
@@ -137,7 +138,7 @@ public class BeställFX extends Application {
                         System.exit(0);
                     }
                     else{
-                        extraInfo.setText("choose en produkt och en beställning");
+                        extraInfo.setText("choose one produkt");
                     }
                 }
                 catch(Exception e){
@@ -149,7 +150,6 @@ public class BeställFX extends Application {
                                 int ortii = ortname.getText().indexOf(".");
                                 String ortstr = ortname.getText().substring(0, ortii);
                                 ortint = Integer.parseInt(ortstr);
-                                System.out.println(ortint);
                             }
                             if(colorname.getText().startsWith("choose")) colorint=1;
                             else{
@@ -167,7 +167,6 @@ public class BeställFX extends Application {
                                 r.callAddToCart(id, beställId, demoId);
                             }
                             else{
-                                System.out.println(ortint +"."+colorint+"."+sizeint);
                                 r.callAddToCart2(id, beställId, demoId, ortint, colorint, sizeint);
                             }
                             try {
@@ -182,8 +181,8 @@ public class BeställFX extends Application {
                         }
                     }
                     else{
-                        extraInfo.setText("choose one produkt");
-                        primaryStage.show();
+                        if(bs.getText().trim().startsWith("new")) extraInfo.setText("choose one produkt");
+                        else extraInfo.setText("choose one produkt och one beställning");
                     }
                 }
             }
@@ -208,29 +207,32 @@ public class BeställFX extends Application {
         List<RadioButton> rbtn = new ArrayList<>();
         ToggleGroup group = new ToggleGroup();
         for(int i = 0; i<produkt.size(); i++){
-            RadioButton b = new RadioButton(produkt.get(i).toString());
-            b.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                RadioButton rb = (RadioButton) event.getSource();
-                int temp = rb.getText().indexOf(",", 0);
-                String s = rb.getText().substring(4, temp).trim();  
-                int num = Integer.parseInt(s);
-                AddColorF ac = new AddColorF();
-                List<ColorF> färg = ac.addCol(colors, num, "choose one color");
-                grid.getChildren().remove(colorBox);
-                colorBox = ac.addBox();
-                grid.add(colorBox, 0, 2, 2, 1);
-                AddSizeF as = new AddSizeF();
-                List<SizeF> storlek = as.addSize(sizes, num, "choose one size");
-                grid.getChildren().remove(sizeBox);
-                sizeBox = as.addBox();
-                grid.add(sizeBox, 0, 3, 2, 1);
-                title.setText(num+"");
+            if(produkt.get(i).getTotal() > 0){              
+                RadioButton b = new RadioButton(produkt.get(i).toString());
+                b.setOnAction(new EventHandler<ActionEvent>(){
+                    @Override
+                    public void handle(ActionEvent event) {
+                        extraInfo.setVisible(false);
+                        RadioButton rb = (RadioButton) event.getSource();
+                        int temp = rb.getText().indexOf(",", 0);
+                        String s = rb.getText().substring(4, temp).trim();  
+                        int num = Integer.parseInt(s);
+                        AddColorF ac = new AddColorF();
+                        List<ColorF> färg = ac.addCol(colors, num, "choose one color");
+                        grid.getChildren().remove(colorBox);
+                        colorBox = ac.addBox();
+                        grid.add(colorBox, 0, 2, 2, 1);
+                        AddSizeF as = new AddSizeF();
+                        List<SizeF> storlek = as.addSize(sizes, num, "choose one size");
+                        grid.getChildren().remove(sizeBox);
+                        sizeBox = as.addBox();
+                        grid.add(sizeBox, 0, 3, 2, 1);
+                        title.setText(num+"");
+                    }
+                });
+                b.setToggleGroup(group);
+                rbtn.add(b);
             }
-        });
-            b.setToggleGroup(group);
-            rbtn.add(b);
         }
         box.getChildren().addAll(rbtn);
         return box;
@@ -252,8 +254,8 @@ public class BeställFX extends Application {
                 RadioButton rb = (RadioButton) event.getSource();
                 String s = rb.getText().trim();   
                 tit.setText(s);
-            }
-        });
+                }
+            });
             b.setToggleGroup(group);
             rbtn.add(b);
         }
@@ -275,6 +277,7 @@ public class BeställFX extends Application {
             b.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
+                extraInfo.setVisible(false);
                 RadioButton rb = (RadioButton) event.getSource();
                 int temp = rb.getText().indexOf(",", 0);
                 String s = rb.getText().substring(4, temp).trim();  
@@ -295,10 +298,11 @@ public class BeställFX extends Application {
             rbtn.add(b);
         }
     }
-        RadioButton testB = new RadioButton("new one");
+        RadioButton testB = new RadioButton("new beställning");
         testB.setOnAction(new EventHandler<ActionEvent>(){
         @Override
         public void handle(ActionEvent event) {
+            extraInfo.setVisible(false);
             RadioButton rbt = (RadioButton) event.getSource();
             String st = rbt.getText().trim();    
             title.setText(st);

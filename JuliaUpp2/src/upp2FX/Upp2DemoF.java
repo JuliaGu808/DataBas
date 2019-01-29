@@ -22,7 +22,7 @@ public class Upp2DemoF {
            args[1] = kf.getKundId(s)+"";
            BeställFX.main(args);
        }
-       else System.out.println("check your name please!");
+       else JOptionPane.showMessageDialog(null, "No this person !");
     }  
     public static void main(String[] args) {
         Upp2DemoF körVi = new Upp2DemoF();

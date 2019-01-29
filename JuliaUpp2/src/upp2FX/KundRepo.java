@@ -43,7 +43,6 @@ public class KundRepo {
         catch(Exception e){
             e.printStackTrace();
         }
-        kunder.stream().forEach(c -> c.print());
         return kunder;
     }
 }

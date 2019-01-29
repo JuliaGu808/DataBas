@@ -5,6 +5,7 @@ package upp2FX;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -25,11 +26,12 @@ public class AddColorF {
     private List<ColorF> colors = new ArrayList<>();
     public List<ColorF> addCol (List<ColorF> färg, int demoId, String title){
         this.title=title;
-        for(ColorF c: färg){
-            if(c.getDemoId()==demoId){
-                colors.add(c);
-            }
-        }
+        colors = färg.stream().filter(c -> c.getDemoId()==demoId).collect(Collectors.toList());
+//        for(ColorF c: färg){
+//            if(c.getDemoId()==demoId){
+//                colors.add(c);
+//            }
+//        }
         return colors;
     }
     public HBox addBox(){

@@ -73,7 +73,7 @@ public class BeställFX extends Application {
         BeställRepo br = new BeställRepo();
         beställningar = br.showAllBeställ();
         BeställControlF bc = new BeställControlF();
-        validBeställ = bc.showValidBeställ(beställningar,id);
+        validBeställ = bc.showValidBeställ(beställningar,id); // visa false
         beställerBox = addVBoxB(validBeställ, "choose one beställning");
         ortBox = addBoxO("choose one place");
         ortBox.setVisible(false);
@@ -98,6 +98,7 @@ public class BeställFX extends Application {
                 extraInfo.setVisible(true);
                 int demoId = 0;
                 int beställId = 0;
+                //fånga olika vilkor
                 Text ps =(Text) produkterBox.getChildren().get(0);
                 Text bs =(Text) beställerBox.getChildren().get(0);
                 Text ortname =(Text) ortBox.getChildren().get(0);
@@ -216,11 +217,11 @@ public class BeställFX extends Application {
                         RadioButton rb = (RadioButton) event.getSource();
                         int temp = rb.getText().indexOf(",", 0);
                         String s = rb.getText().substring(4, temp).trim();  
-                        int num = Integer.parseInt(s);
-                        AddColorF ac = new AddColorF();
+                        int num = Integer.parseInt(s);  // id
+                        AddColorF ac = new AddColorF(); // varje gång ny färgklass
                         List<ColorF> färg = ac.addCol(colors, num, "choose one color");
-                        grid.getChildren().remove(colorBox);
-                        colorBox = ac.addBox();
+                        grid.getChildren().remove(colorBox);    //annars ska 重叠
+                        colorBox = ac.addBox(); // färg inne
                         grid.add(colorBox, 0, 2, 2, 1);
                         AddSizeF as = new AddSizeF();
                         List<SizeF> storlek = as.addSize(sizes, num, "choose one size");

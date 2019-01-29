@@ -5,6 +5,7 @@ package upp2FX;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,14 +23,14 @@ import javafx.scene.text.Text;
 public class AddSizeF {
     private String title;
     private List<SizeF> sizes = new ArrayList<>();
-    
     public List<SizeF> addSize (List<SizeF> size, int demoId, String title){
         this.title=title;
-        for(SizeF c: size){
-            if(c.getDemoId()==demoId){
-                sizes.add(c);
-            }
-        }
+        sizes = size.stream().filter(c -> c.getDemoId()==demoId).collect(Collectors.toList());
+//        for(SizeF c: size){
+//            if(c.getDemoId()==demoId){
+//                sizes.add(c);
+//            }
+//        }
         return sizes;
     }
     public HBox addBox(){

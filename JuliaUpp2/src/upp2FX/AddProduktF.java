@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 /**
@@ -23,12 +24,14 @@ public class AddProduktF {
     }
     public List<BeställningF> addPro() {
         List<BeställningF> temp = new ArrayList<>();
-        for(int i = 0; i<beställningar.size(); i++){
-            if(beställningar.get(i).getId()==num && 
-                    beställningar.get(i).isSkickad()==false){
-                temp.add(beställningar.get(i));
-            }
-        }
+        temp = beställningar.stream().
+                filter(c -> c.getId()==num && c.isSkickad()==false).collect(Collectors.toList());
+//        for(int i = 0; i<beställningar.size(); i++){
+//            if(beställningar.get(i).getId()==num && 
+//                    beställningar.get(i).isSkickad()==false){
+//                temp.add(beställningar.get(i));
+//            }
+//        }
         return temp;
     }
 }

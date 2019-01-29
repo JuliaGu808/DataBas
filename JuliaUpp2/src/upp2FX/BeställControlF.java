@@ -5,6 +5,7 @@ package upp2FX;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,12 +23,14 @@ import javafx.scene.text.Text;
 public class BeställControlF {
     public List<BeställningF> showValidBeställ(List<BeställningF> beställningar, int id){
         List<BeställningF> temp = new ArrayList<>();
-        for(int i = 0; i<beställningar.size(); i++){
-            if(beställningar.get(i).isSkickad()==false && beställningar.get(i).getKundId()==id){
-                temp.add(beställningar.get(i));
-            }
-        }
-        for(int j = 0; j<temp.size()-1; j++){
+        temp = beställningar.stream().
+                filter(c -> c.isSkickad()==false && c.getKundId()==id).collect(Collectors.toList());
+//        for(int i = 0; i<beställningar.size(); i++){
+//            if(beställningar.get(i).isSkickad()==false && beställningar.get(i).getKundId()==id){
+//                temp.add(beställningar.get(i));
+//            }
+//        }
+        for(int j = 0; j<temp.size()-1; j++){   //去重复
             if(temp.get(j).getId()==temp.get(j+1).getId()){
                 temp.remove(j+1);
                 j--;

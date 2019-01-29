@@ -32,7 +32,7 @@ public class BeställRepo {
                 + "vara.produktID, beställning.ortID, beställning.datum, "
                 + "beställning.skickad from beställning inner join vara "
                 + "on beställning.ID=vara.beställningID "
-                + "order by beställning.ID";
+                + "order by beställning.ID";  //方便后续的去重复
         try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"), 
                                                   p.getProperty("name"), 
                                                   p.getProperty("password"));

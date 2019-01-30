@@ -50,7 +50,6 @@ public class AddSizeF {
                 String s = rb.getText().trim();   
                 tit.setText(s);
                 sizeId = ap.getId(mp, s);
-                System.out.println("size"+sizeId);
             }
         });
             b.setToggleGroup(group);

@@ -103,28 +103,35 @@ public class BeställFX extends Application {
                 extraInfo.setVisible(true);
                 sizeId = as.getSizeId();
                 colorId = ac.getColorId();
-                System.out.println(demoId);
-                System.out.println(beställId);
-                System.out.println(ortId);
-                System.out.println(colorId);
-                System.out.println(sizeId);
                 if(demoId==0 && beställId==0) 
                     extraInfo.setText("choose one produkt och one beställning");
-                if(demoId==0 && beställId < 0)
+                if(demoId==0 && beställId != 0)
                     extraInfo.setText("choose one produkt");
                 if(demoId != 0 && beställId==0)
                     extraInfo.setText("choose one beställning");
                 if(demoId != 0 && beställId != 0){
-                    if(ortId==0) ortId=2;
-                    if(colorId==0) colorId=1;
-                    if(sizeId==0) sizeId=5;
-                    r.callAddToCart2(id, beställId, demoId, ortId, colorId, sizeId);
-                    try {
-                            Thread.sleep(2000);
+                    if(ortId==0 && colorId==0 && sizeId==0){
+                        r.callAddToCart(id, beställId, demoId);
+                        try {
+                                Thread.sleep(2000);
+                                System.exit(0);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(AddProduktF.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(AddProduktF.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        System.exit(0);
+                    }
+                    else{
+                        if(ortId==0) ortId=2;
+                        if(colorId==0) colorId=1;
+                        if(sizeId==0) sizeId=5;
+                        r.callAddToCart2(id, beställId, demoId, ortId, colorId, sizeId);
+                        try {
+                                Thread.sleep(2000);
+                                System.exit(0);
+                        } catch (InterruptedException ex) {
+                                Logger.getLogger(AddProduktF.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    }
                 }
             }
         });
@@ -170,7 +177,6 @@ public class BeställFX extends Application {
                         grid.getChildren().remove(sizeBox);
                         sizeBox = as.addBox();
                         grid.add(sizeBox, 0, 3, 2, 1);
-                        System.out.println("return size" +sizeId);
                         title.setText(s);
                     }
                 });

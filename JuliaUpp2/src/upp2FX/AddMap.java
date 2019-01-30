@@ -41,7 +41,7 @@ public class AddMap {
     }
     public Map<Integer, String> changeMapB(List<BeställningF> list){
         for(int i=0; i<list.size(); i++){
-            map.put(list.get(i).getId(), list.get(i).toString());
+            map.put(list.get(i).getId(), (i+1)+". "+list.get(i).toString());
         }
         return map;
     }

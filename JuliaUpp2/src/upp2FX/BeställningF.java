@@ -13,13 +13,15 @@ class BeställningF {
     private int id;
     private int kundId;
     private int produktId;
+    private String name;
     private int ortId;
     private Date datum;
     private boolean skickad;
-    public BeställningF(int id, int kundId, int produktId, int ordId, Date datum, boolean skickad){
+    public BeställningF(int id, int kundId, int produktId, String name, int ordId, Date datum, boolean skickad){
         this.id=id;
         this.kundId=kundId;
         this.produktId=produktId;
+        this.name=name;
         this.ortId=ortId;
         this.datum=datum;
         this.skickad=skickad;
@@ -48,11 +50,11 @@ class BeställningF {
                 " \tdatum: "+datum+" \tskickad: "+skickad + " \n");
     }
     public String getInfo(){
-        return "Id: "+getId()+ " \tproduktId: " + produktId + " \tdatum: "+datum+" \tskickad: "+skickad + " \n";
+        return name + " \tdatum: "+datum+" \tskickad: "+skickad + " \n";
     }
     @Override
     public String toString(){
-        return "Id: "+getId()+", \tdatum: "+datum+" \tskickad: "+skickad + " \n";
+        return "datum: " + datum + " \t en beställning " + " \tskickad: "+skickad + " \n";
     }
     public int getId() {
         return id;

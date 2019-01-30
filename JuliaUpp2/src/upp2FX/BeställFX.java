@@ -4,7 +4,10 @@
 package upp2FX;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -36,6 +39,7 @@ import javax.swing.JOptionPane;
 public class BeställFX extends Application {
     private static String name;
     private static int id;
+    private int demoId=0, beställId=0, colorId=0, sizeId=0, ortId=0;
     private List<ColorF> colors = new ArrayList<>();
     private List<SizeF> sizes = new ArrayList<>();
     private List<OrtF> orter = new ArrayList<>();
@@ -51,7 +55,8 @@ public class BeställFX extends Application {
     Button btn = new Button("Add to Cart");
     GridPane grid = new GridPane();
     BorderPane border = new BorderPane();
-
+    AddSizeF as = new AddSizeF();
+    AddColorF ac = new AddColorF();
     @Override
     public void start(Stage primaryStage) {
         grid.setHgap(20);
@@ -96,95 +101,30 @@ public class BeställFX extends Application {
             @Override
             public void handle(MouseEvent event) {   
                 extraInfo.setVisible(true);
-                int demoId = 0;
-                int beställId = 0;
-                //fånga olika vilkor
-                Text ps =(Text) produkterBox.getChildren().get(0);
-                Text bs =(Text) beställerBox.getChildren().get(0);
-                Text ortname =(Text) ortBox.getChildren().get(0);
-                Text colorname = (Text) colorBox.getChildren().get(0);
-                Text sizename = (Text) sizeBox.getChildren().get(0);
-                int ortint=2, colorint=1, sizeint=5;
-                try{
-                    demoId = Integer.parseInt(ps.getText().trim());
-                }
-                catch(Exception e){
-                    demoId = 0;
+                sizeId = as.getSizeId();
+                colorId = ac.getColorId();
+                System.out.println(demoId);
+                System.out.println(beställId);
+                System.out.println(ortId);
+                System.out.println(colorId);
+                System.out.println(sizeId);
+                if(demoId==0 && beställId==0) 
+                    extraInfo.setText("choose one produkt och one beställning");
+                if(demoId==0 && beställId < 0)
                     extraInfo.setText("choose one produkt");
-                }
-                try{
-                    beställId = Integer.parseInt(bs.getText().trim());
-                    if(demoId != 0 ){
-                        if(colorname.getText().startsWith("choose")) colorint=1;
-                            else{
-                                int colorii = colorname.getText().indexOf(".");
-                                String colorstr = colorname.getText().substring(0, colorii);
-                                colorint = Integer.parseInt(colorstr);
-                            }
-                            if(sizename.getText().startsWith("choose")) sizeint=5;
-                            else{
-                                int sizeii = sizename.getText().indexOf(".");
-                                String sizestr = sizename.getText().substring(0, sizeii);
-                                sizeint = Integer.parseInt(sizestr);
-                            }
-                        if(colorint==1 && sizeint==5) 
-                            r.callAddToCart(id, beställId, demoId);
-                        else
-                            r.callAddToCart2(id, beställId, demoId, ortint, colorint, sizeint);
-                        try {
+                if(demoId != 0 && beställId==0)
+                    extraInfo.setText("choose one beställning");
+                if(demoId != 0 && beställId != 0){
+                    if(ortId==0) ortId=2;
+                    if(colorId==0) colorId=1;
+                    if(sizeId==0) sizeId=5;
+                    r.callAddToCart2(id, beställId, demoId, ortId, colorId, sizeId);
+                    try {
                             Thread.sleep(2000);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(AddProduktF.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         System.exit(0);
-                    }
-                    else{
-                        extraInfo.setText("choose one produkt");
-                    }
-                }
-                catch(Exception e){
-                    if(demoId != 0){
-                        if(bs.getText().startsWith("new")){
-                            beställId = 0;
-                            if(ortname.getText().startsWith("choose")) ortint=2;
-                            else{
-                                int ortii = ortname.getText().indexOf(".");
-                                String ortstr = ortname.getText().substring(0, ortii);
-                                ortint = Integer.parseInt(ortstr);
-                            }
-                            if(colorname.getText().startsWith("choose")) colorint=1;
-                            else{
-                                int colorii = colorname.getText().indexOf(".");
-                                String colorstr = colorname.getText().substring(0, colorii);
-                                colorint = Integer.parseInt(colorstr);
-                            }
-                            if(sizename.getText().startsWith("choose")) sizeint=5;
-                            else{
-                                int sizeii = sizename.getText().indexOf(".");
-                                String sizestr = sizename.getText().substring(0, sizeii);
-                                sizeint = Integer.parseInt(sizestr);
-                            }
-                            if(ortint==2 && colorint==1 && sizeint==5) {
-                                r.callAddToCart(id, beställId, demoId);
-                            }
-                            else{
-                                r.callAddToCart2(id, beställId, demoId, ortint, colorint, sizeint);
-                            }
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(AddProduktF.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            System.exit(0);
-                        }
-                        else{
-                            extraInfo.setText("choose one beställning");
-                        }
-                    }
-                    else{
-                        if(bs.getText().trim().startsWith("new")) extraInfo.setText("choose one produkt");
-                        else extraInfo.setText("choose one produkt och one beställning");
-                    }
                 }
             }
         });
@@ -199,6 +139,8 @@ public class BeställFX extends Application {
         launch();
     }
     public VBox addVBoxP(List<ProduktF> produkt, String str){
+        AddMap ap = new AddMap();
+        Map mp = ap.changeMapP(produkt);
         VBox box = new VBox();
         box.setPadding(new Insets(10));
         box.setSpacing(8);
@@ -208,27 +150,28 @@ public class BeställFX extends Application {
         List<RadioButton> rbtn = new ArrayList<>();
         ToggleGroup group = new ToggleGroup();
         for(int i = 0; i<produkt.size(); i++){
-            if(produkt.get(i).getTotal() > 0){              
-                RadioButton b = new RadioButton(produkt.get(i).toString());
+            if(produkt.get(i).getTotal() > 0){  
+                RadioButton b = new RadioButton(mp.get(produkt.get(i).getDemoId()).toString());
                 b.setOnAction(new EventHandler<ActionEvent>(){
                     @Override
                     public void handle(ActionEvent event) {
                         extraInfo.setVisible(false);
-                        RadioButton rb = (RadioButton) event.getSource();
-                        int temp = rb.getText().indexOf(",", 0);
-                        String s = rb.getText().substring(4, temp).trim();  
-                        int num = Integer.parseInt(s);  // id
-                        AddColorF ac = new AddColorF(); // varje gång ny färgklass
+                        RadioButton rb = (RadioButton) event.getSource(); 
+                        String s = rb.getText(); 
+                        int num = ap.getId(mp, s);
+                        demoId = num;
+                        //同一demo不同色号
                         List<ColorF> färg = ac.addCol(colors, num, "choose one color");
                         grid.getChildren().remove(colorBox);    //annars ska 重叠
                         colorBox = ac.addBox(); // färg inne
                         grid.add(colorBox, 0, 2, 2, 1);
-                        AddSizeF as = new AddSizeF();
+                        //同一demo不同尺寸
                         List<SizeF> storlek = as.addSize(sizes, num, "choose one size");
                         grid.getChildren().remove(sizeBox);
                         sizeBox = as.addBox();
                         grid.add(sizeBox, 0, 3, 2, 1);
-                        title.setText(num+"");
+                        System.out.println("return size" +sizeId);
+                        title.setText(s);
                     }
                 });
                 b.setToggleGroup(group);
@@ -239,6 +182,8 @@ public class BeställFX extends Application {
         return box;
     } 
     public HBox addBoxO(String title){
+        AddMap ap = new AddMap();
+        Map mp = ap.changeMapO(orter);
         HBox box = new HBox();
         box.setPadding(new Insets(10));
         box.setSpacing(8);
@@ -248,13 +193,14 @@ public class BeställFX extends Application {
         List<RadioButton> rbtn = new ArrayList<>();
         ToggleGroup group = new ToggleGroup();
         for(int i = 0; i<orter.size(); i++){
-            RadioButton b = new RadioButton(orter.get(i).toString());
+            RadioButton b = new RadioButton(mp.get(orter.get(i).getId()).toString());
             b.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
                 RadioButton rb = (RadioButton) event.getSource();
                 String s = rb.getText().trim();   
                 tit.setText(s);
+                ortId = ap.getId(mp, s);
                 }
             });
             b.setToggleGroup(group);
@@ -264,56 +210,59 @@ public class BeställFX extends Application {
         return box;
     }
     public VBox addVBoxB(List<BeställningF> beställ, String str){
-    VBox box = new VBox();
-    box.setPadding(new Insets(10));
-    box.setSpacing(8);
-    Text title = new Text(str);
-    title.setFont(Font.font("Aria", FontWeight.BOLD, 14));
-    box.getChildren().add(title);
-    List<RadioButton> rbtn = new ArrayList<>();
-    ToggleGroup group = new ToggleGroup();
-    for(int i = 0; i<beställ.size(); i++){
-        if(beställ.get(i).isSkickad()==false){
-            RadioButton b = new RadioButton(beställ.get(i).toString());
-            b.setOnAction(new EventHandler<ActionEvent>(){
+        AddMap ap = new AddMap();
+        Map mp = ap.changeMapB(beställ);
+        VBox box = new VBox();
+        box.setPadding(new Insets(10));
+        box.setSpacing(8);
+        Text title = new Text(str);
+        title.setFont(Font.font("Aria", FontWeight.BOLD, 14));
+        box.getChildren().add(title);
+        List<RadioButton> rbtn = new ArrayList<>();
+        ToggleGroup group = new ToggleGroup();
+        for(int i = 0; i<beställ.size(); i++){
+            if(beställ.get(i).isSkickad()==false){
+                RadioButton b = new RadioButton(mp.get(beställ.get(i).getId()).toString());
+                b.setOnAction(new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event) {
+                    extraInfo.setVisible(false);
+                    RadioButton rb = (RadioButton) event.getSource();
+                    String s = rb.getText();  
+                    int num = ap.getId(mp, s);
+                    AddProduktF af = new AddProduktF(beställningar, num);
+                    List<BeställningF> produkts = af.addPro();
+                    String strPro = "";
+                    for(BeställningF b: produkts){
+                        strPro = strPro + b.getInfo();
+                    }
+                    produktInfo.setText(strPro);
+                    produktInfo.setVisible(true);
+                    title.setText(str);
+                    beställId = num;
+                    ortBox.setVisible(false);
+                    }
+                });
+                b.setToggleGroup(group);
+                rbtn.add(b);
+            }
+        }
+            RadioButton testB = new RadioButton("new beställning");
+            testB.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
                 extraInfo.setVisible(false);
-                RadioButton rb = (RadioButton) event.getSource();
-                int temp = rb.getText().indexOf(",", 0);
-                String s = rb.getText().substring(4, temp).trim();  
-                int num = Integer.parseInt(s);
-                AddProduktF af = new AddProduktF(beställningar, num);
-                List<BeställningF> produkts = af.addPro();
-                String strPro = "";
-                for(BeställningF b: produkts){
-                    strPro = strPro + b.getInfo();
-                }
-                produktInfo.setText(strPro);
-                produktInfo.setVisible(true);
-                title.setText(num+"");
-                ortBox.setVisible(false);
-                }
-            });
-            b.setToggleGroup(group);
-            rbtn.add(b);
-        }
-    }
-        RadioButton testB = new RadioButton("new beställning");
-        testB.setOnAction(new EventHandler<ActionEvent>(){
-        @Override
-        public void handle(ActionEvent event) {
-            extraInfo.setVisible(false);
-            RadioButton rbt = (RadioButton) event.getSource();
-            String st = rbt.getText().trim();    
-            title.setText(st);
-            ortBox.setVisible(true);
-            produktInfo.setVisible(false);
-        }
-    });
-        testB.setToggleGroup(group);
-        rbtn.add(testB);
-    box.getChildren().addAll(rbtn);
-    return box;        
+                RadioButton rbt = (RadioButton) event.getSource();
+                String st = rbt.getText().trim();    
+                title.setText(st);
+                ortBox.setVisible(true);
+                produktInfo.setVisible(false);
+                beställId = -1;
+            }
+        });
+            testB.setToggleGroup(group);
+            rbtn.add(testB);
+        box.getChildren().addAll(rbtn);
+        return box;        
     }
 }

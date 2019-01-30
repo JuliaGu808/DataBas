@@ -26,12 +26,6 @@ public class AddProduktF {
         List<BeställningF> temp = new ArrayList<>();
         temp = beställningar.stream().
                 filter(c -> c.getId()==num && c.isSkickad()==false).collect(Collectors.toList());
-//        for(int i = 0; i<beställningar.size(); i++){
-//            if(beställningar.get(i).getId()==num && 
-//                    beställningar.get(i).isSkickad()==false){
-//                temp.add(beställningar.get(i));
-//            }
-//        }
         return temp;
     }
 }

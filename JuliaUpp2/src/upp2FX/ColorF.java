@@ -32,7 +32,7 @@ public class ColorF {
     }
     @Override
     public String toString(){
-        return färgId + ". färg " + name;
+        return name;
     }
     public void print(){
         System.out.println("id: " + id + "\tdemoId: " + demoId + "\tcolor: " + name);

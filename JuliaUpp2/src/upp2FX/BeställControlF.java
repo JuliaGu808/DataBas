@@ -25,11 +25,6 @@ public class BeställControlF {
         List<BeställningF> temp = new ArrayList<>();
         temp = beställningar.stream().
                 filter(c -> c.isSkickad()==false && c.getKundId()==id).collect(Collectors.toList());
-//        for(int i = 0; i<beställningar.size(); i++){
-//            if(beställningar.get(i).isSkickad()==false && beställningar.get(i).getKundId()==id){
-//                temp.add(beställningar.get(i));
-//            }
-//        }
         for(int j = 0; j<temp.size()-1; j++){   //去重复
             if(temp.get(j).getId()==temp.get(j+1).getId()){
                 temp.remove(j+1);

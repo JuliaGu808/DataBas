@@ -32,7 +32,7 @@ public class SizeF {
     }
     @Override
     public String toString(){
-        return storlekId + ". storlek " + size;
+        return size+"";
     }
     public void print(){
         System.out.println("id: " + id + "\tdemoId: " + demoId + "\tsize: " + size);

@@ -29,9 +29,10 @@ public class BeställRepo {
     }  
     public List<BeställningF> showAllBeställ(){
         String query = "select beställning.ID, beställning.kundID, "
-                + "vara.produktID, beställning.ortID, beställning.datum, "
+                + "vara.produktID, produktDemo.produktName, beställning.ortID, beställning.datum, "
                 + "beställning.skickad from beställning inner join vara "
-                + "on beställning.ID=vara.beställningID "
+                + "on beställning.ID=vara.beställningID inner join produktDemo "
+                + "on produktDemo.ID=vara.produktID "
                 + "order by beställning.ID";  //方便后续的去重复
         try(Connection con = DriverManager.getConnection(p.getProperty("connectionString"), 
                                                   p.getProperty("name"), 
@@ -41,7 +42,7 @@ public class BeställRepo {
                 ){
             while(rs.next()){
                 beställningar.add(new BeställningF(rs.getInt("ID"), 
-                            rs.getInt("kundID"), rs.getInt("produktID"), 
+                            rs.getInt("kundID"), rs.getInt("produktID"), rs.getString("produktName"), 
                             rs.getInt("ortID"), rs.getDate("datum"), 
                             rs.getBoolean("skickad")));
             }

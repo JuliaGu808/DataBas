@@ -3,6 +3,8 @@
  */
 package upp2FX;
 
+import java.util.List;
+
 /**
  *
  * @author Julia
@@ -39,10 +41,13 @@ public class ProduktF {
         this.total = total;
     }  
     public void print(){
-        System.out.println("demoId: "+demoId+"\tnamn: "+namn+" \tpris: "+pris+"\ttotal: "+total);
+        System.out.println("demoId: "+demoId+"\tnamn: "+getNamn()+" \tpris: "+pris+"\ttotal: "+total);
     }
     @Override
     public String toString(){
-        return "Id: "+demoId+", \tnamn: "+namn+" ,  \tpris: "+pris+" \ttotal: "+total;
+        return namn;
+    }
+    public String getNamn() {
+        return namn;
     }
 }
